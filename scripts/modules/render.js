@@ -1,41 +1,38 @@
-<!DOCTYPE html>
-<html lang="ru">
+import { getCurrentDateTime } from './utils.js';
 
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link href="icon/favicon.ico" rel="icon" type="image/x-icon">
-  <link rel="stylesheet" href="style.css">
-  <script src="scripts/widget.js" type="module"></script>
-  <title>Виджет погоды</title>
-</head>
+const renderWidgetToday = widget => {
+  const { dayOfMonth, month, year, dayOfWeek, hours, minutes } =
+    getCurrentDateTime();
 
-<body>
-  <div id="app"></div>
-
-  <!-- <div class="widget">
-    <div class="widget__today">
-      <div class="widget__date-block">
-        <p class="widget__date">20 июн 2023</p>
-        <p class="widget__time">09:00</p>
-        <p class="widget__day">вторник</p>
-      </div>
-      <div class="widget__icon">
-        <img class="widget__img" src="./icon/01d.svg" alt="Погода">
-      </div>
-      <div class="widget__wheather">
-        <div class="widget__city">
-          <p>Калининград</p>
-          <button class="widget__change-city" aria-label="Изменить город"></button>
+  widget.insertAdjacentHTML(
+    'beforeend',
+    `<div class="widget__today">
+        <div class="widget__date-block">
+          <p class="widget__date">${dayOfMonth} ${month} ${year}</p>
+          <p class="widget__time">${hours}:${minutes}</p>
+          <p class="widget__day">${dayOfWeek}</p>
         </div>
-        <p class="widget__temp-big">19.3°C</p>
-        <p class="widget__felt">ощущается</p>
-        <p class="widget__temp-small">18.8 °C</p>
-      </div>
+        <div class="widget__icon">
+          <img class="widget__img" src="./icon/01d.svg" alt="Погода">
+        </div>
+        <div class="widget__wheather">
+          <div class="widget__city">
+            <p>Калининград</p>
+            <button class="widget__change-city" aria-label="Изменить город"></button>
+          </div>
+          <p class="widget__temp-big">19.3°C</p>
+          <p class="widget__felt">ощущается</p>
+          <p class="widget__temp-small">18.8 °C</p>
+        </div>
     </div>
+    `,
+  );
+};
 
-    <div class="widget__other">
+const renderWidgetOther = widget => {
+  widget.insertAdjacentHTML(
+    'beforeend',
+    `<div class="widget__other">
       <div class="widget__wind">
         <p class="widget__wind-title">Ветер</p>
         <p class="widget__wind-speed">3.94 м/с</p>
@@ -53,8 +50,14 @@
         <p class="widget__pressure-text">мм рт.ст.</p>
       </div>
     </div>
+  `,
+  );
+};
 
-    <ul class="widget__forecast">
+const renderWidgetForecast = widget => {
+  widget.insertAdjacentHTML(
+    'beforeend',
+    `<ul class="widget__forecast">
       <li class="widget__day-item">
         <p class="widget__day-text">ср</p>
         <img class="widget__day-img" src="./icon/02d.svg" alt="Погода">
@@ -80,8 +83,9 @@
         <img class="widget__day-img" src="./icon/03d.svg" alt="Погода">
         <p class="widget__day-temp">17.3°/11.2°</p>
       </li>
-    </ul>
-  </div> -->
-</body>
+</ul>
+  `,
+  );
+};
 
-</html>
+export { renderWidgetToday, renderWidgetOther, renderWidgetForecast };
