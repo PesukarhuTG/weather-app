@@ -1,8 +1,10 @@
-import { getCurrentDateTime } from './utils.js';
+import { getDewPoint, getCurrentDateTime, getWindDirection } from './utils.js';
 
-const renderWidgetToday = widget => {
+const renderWidgetToday = (widget, data) => {
   const { dayOfMonth, month, year, dayOfWeek, hours, minutes } =
     getCurrentDateTime();
+
+  const { weather, name, main } = data;
 
   widget.insertAdjacentHTML(
     'beforeend',
@@ -13,40 +15,53 @@ const renderWidgetToday = widget => {
           <p class="widget__day">${dayOfWeek}</p>
         </div>
         <div class="widget__icon">
-          <img class="widget__img" src="./icon/01d.svg" alt="Погода">
+          <img class="widget__img" src="./icon/${
+            weather[0].icon
+          }.svg" alt="Погода">
         </div>
         <div class="widget__wheather">
           <div class="widget__city">
-            <p>Калининград</p>
+            <p>${name}</p>
             <button class="widget__change-city" aria-label="Изменить город"></button>
           </div>
-          <p class="widget__temp-big">19.3°C</p>
+          <p class="widget__temp-big">${(main.temp - 273.15).toFixed(1)}°C</p>
           <p class="widget__felt">ощущается</p>
-          <p class="widget__temp-small">18.8 °C</p>
+          <p class="widget__temp-small">${(main.feels_like - 273.15).toFixed(
+            1,
+          )}°C</p>
         </div>
     </div>
     `,
   );
 };
 
-const renderWidgetOther = widget => {
+const renderWidgetOther = (widget, data) => {
+  const { wind, main } = data;
+  console.log(data);
+
   widget.insertAdjacentHTML(
     'beforeend',
     `<div class="widget__other">
       <div class="widget__wind">
         <p class="widget__wind-title">Ветер</p>
-        <p class="widget__wind-speed">3.94 м/с</p>
-        <p class="widget__wind-text">&#8599;</p>
+        <p class="widget__wind-speed">${wind.speed} м/с</p>
+        <p class="widget__wind-text">${getWindDirection(wind.deg)}</p>
 
       </div>
       <div class="widget__humidity">
         <p class="widget__humidity-title">Влажность</p>
-        <p class="widget__humidity-value">27%</p>
-        <p class="widget__humidity-text">Т.Р: -0.2 °C</p>
+        <p class="widget__humidity-value">${main.humidity}%</p>
+        <p class="widget__humidity-text">Т.Р: ${getDewPoint(
+          main.temp - 273.15,
+          main.humidity,
+        )} °C</p>
       </div>
       <div class="widget__pressure">
         <p class="widget__pressure-title">Давление</p>
-        <p class="widget__pressure-value">768.32</p>
+        <p class="widget__pressure-value">${(
+          (main.pressure / 133.3) *
+          100
+        ).toFixed(2)}</p>
         <p class="widget__pressure-text">мм рт.ст.</p>
       </div>
     </div>
@@ -88,4 +103,14 @@ const renderWidgetForecast = widget => {
   );
 };
 
-export { renderWidgetToday, renderWidgetOther, renderWidgetForecast };
+const showError = (widget, err) => {
+  widget.textContent = err.toString();
+  widget.classList.add('widget_error');
+};
+
+export {
+  renderWidgetToday,
+  renderWidgetOther,
+  renderWidgetForecast,
+  showError,
+};

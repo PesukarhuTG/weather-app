@@ -2,9 +2,9 @@ import { startWidget } from './modules/widgetService.js';
 
 const app = document.getElementById('app');
 
-const init = elem => {
-  const widget = startWidget();
+const initWidget = async elem => {
+  const widget = await startWidget();
   elem.append(widget);
 };
 
-init(app);
+initWidget(app);
