@@ -28,7 +28,8 @@ export const getWeatherForecastData = data => {
   const forecast = data.list.filter(
     item =>
       new Date(item.dt_txt).getHours() === 12 &&
-      new Date(item.dt_txt).getDate() > new Date().getDate(),
+      new Date(item.dt_txt).getDate() > new Date().getDate() && // исключаем текущий день
+      new Date(item.dt_txt).getDate() < new Date().getDate() + 5, // исключаем 5й день (запрос на 5 не всегда корректен по часам)
   );
 
   const forecastData = forecast.map(item => {
@@ -48,7 +49,9 @@ export const getWeatherForecastData = data => {
       if (tempDate.getDate() === date.getDate()) {
         if (temp < minTemp) {
           minTemp = temp;
-        } else {
+        }
+
+        if (temp > maxTemp) {
           maxTemp = temp;
         }
       }
