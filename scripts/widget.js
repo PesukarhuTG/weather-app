@@ -4,9 +4,7 @@ import { startWidget } from './modules/widgetService.js';
 const app = document.getElementById('app');
 
 const initWidget = async elem => {
-  const city = 'Москва'; // первый запуск по умолч
-
-  const widget = await startWidget(city);
+  const widget = await startWidget();
   elem.append(widget);
 
   cityServiceSearch(widget);
