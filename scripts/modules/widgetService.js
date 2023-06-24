@@ -9,7 +9,6 @@ import {
 const startWidget = async (city, widget) => {
   if (!city) {
     const dataCity = await getCity();
-    localStorage.setItem('weatherCity', dataCity.city);
 
     if (dataCity.success) {
       city = dataCity.city;

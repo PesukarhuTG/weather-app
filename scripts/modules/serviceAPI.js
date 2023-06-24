@@ -1,3 +1,5 @@
+import { translateCityName } from './translateAPI.js';
+
 const API_URL = 'https://api.openweathermap.org/data/2.5/';
 const API_KEY = 'feb3dd1355be0a527049c3b2e8ae206f';
 
@@ -46,6 +48,11 @@ export const getCity = async () => {
     }
 
     const city = await res.text();
+
+    /*на процесс перевода уходит время (издержки API), поэтому не использую этот лишний этап
+    просто для себя, для галочки, пусть фоном запишет в LS*/
+    const { translatedText: cityRU } = await translateCityName(city);
+    localStorage.setItem('weatherCity', cityRU);
 
     return { success: true, city };
   } catch (error) {
