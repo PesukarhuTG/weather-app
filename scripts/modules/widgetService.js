@@ -9,6 +9,7 @@ import {
 const startWidget = async (city, widget) => {
   if (!city) {
     const dataCity = await getCity();
+    localStorage.setItem('weatherCity', dataCity.city);
 
     if (dataCity.success) {
       city = dataCity.city;
@@ -26,6 +27,7 @@ const startWidget = async (city, widget) => {
   const dataForecast = await fetchForecast(city);
 
   if (dataWeather.success) {
+    widget.textContent = '';
     renderWidgetToday(widget, dataWeather.data);
     renderWidgetOther(widget, dataWeather.data);
   } else {

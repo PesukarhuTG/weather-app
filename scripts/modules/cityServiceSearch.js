@@ -1,7 +1,7 @@
 import { startWidget } from './widgetService.js';
 
 export const cityServiceSearch = elem => {
-  const button = document.querySelector('.widget__change-city');
+  const button = elem.querySelector('.widget__change-city');
 
   button.addEventListener('click', () => {
     const form = document.createElement('form');
@@ -24,6 +24,12 @@ export const cityServiceSearch = elem => {
       elem.textContent = '';
       await startWidget(inputCity.value, elem);
       cityServiceSearch(elem); //тк после очистки наша кнопка пропадет. СОздаем заново
+    });
+
+    inputCity.addEventListener('keyup', ({ code }) => {
+      if (code === 'Escape') {
+        form.remove();
+      }
     });
   });
 };

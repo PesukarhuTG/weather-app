@@ -1,17 +1,19 @@
+import { cityServiceSearch } from './cityServiceSearch.js';
 import {
   getDewPoint,
   getCurrentDateTime,
   getWindDirection,
   getWeatherForecastData,
 } from './utils.js';
+import { startWidget } from './widgetService.js';
 
-const renderWidgetToday = (widget, data) => {
+const renderWidgetToday = async (widget, data) => {
   const { dayOfMonth, month, year, dayOfWeek, hours, minutes } =
     getCurrentDateTime();
 
   const { weather, name, main } = data;
 
-  widget.insertAdjacentHTML(
+  await widget.insertAdjacentHTML(
     'beforeend',
     `<div class="widget__today">
         <div class="widget__date-block">
@@ -38,6 +40,8 @@ const renderWidgetToday = (widget, data) => {
     </div>
     `,
   );
+
+  cityServiceSearch(widget);
 };
 
 const renderWidgetOther = (widget, data) => {
@@ -105,6 +109,12 @@ const renderWidgetForecast = async (widget, data) => {
 const showError = (widget, err) => {
   widget.textContent = err.toString();
   widget.classList.add('widget_error');
+
+  setTimeout(() => {
+    const userCity = localStorage.getItem('weatherCity');
+    widget.textContent = '';
+    startWidget(userCity, widget);
+  }, 2000);
 };
 
 export {
