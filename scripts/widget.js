@@ -1,4 +1,3 @@
-import { cityServiceSearch } from './modules/cityServiceSearch.js';
 import { startWidget } from './modules/widgetService.js';
 
 const app = document.getElementById('app');

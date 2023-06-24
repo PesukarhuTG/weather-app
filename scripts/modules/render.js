@@ -112,7 +112,6 @@ const showError = (widget, err) => {
 
   setTimeout(() => {
     const userCity = localStorage.getItem('weatherCity');
-    widget.textContent = '';
     startWidget(userCity, widget);
   }, 2000);
 };
